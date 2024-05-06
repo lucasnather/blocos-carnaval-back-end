@@ -1,0 +1,12 @@
+version: '3.7'
+
+services:
+  postgres:
+    image: 'bitnami/postgresql'
+    container_name: blocos-carnaval
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRESQL_USERNAME=${POSTGRES_USERNAME}
+      - POSTGRESQL_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRESQL_DATABASE=${POSTGRES_DATABASE}

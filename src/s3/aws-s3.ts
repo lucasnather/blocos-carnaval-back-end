@@ -1,7 +1,6 @@
 import { DeleteObjectCommand, GetObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { env } from "../env.js";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import { FotosInterface } from "../interfaces/foto-interface.js";
 
 export class AwsS3 {
 
@@ -34,19 +33,17 @@ export class AwsS3 {
        
     }
 
-   async getImagesInAws(fotos: FotosInterface[]) {
+   async getImagesInAws(imageName: string) {
         const client = this.createBucket()
-        let url: string = ''
         
-        for(const foto of fotos) {
-            const getObjectParams = {
-                Bucket: env.BUCKET_NAME,
-                Key: foto.image
-            }
-            const command = new GetObjectCommand(getObjectParams)
-            url = await getSignedUrl(client, command, { expiresIn: 3600})
+        const getObjectParams = {
+            Bucket: env.BUCKET_NAME,
+            Key: imageName
         }
-        
+
+        const command = new GetObjectCommand(getObjectParams)
+        const url = await getSignedUrl(client, command, { expiresIn: 3600})
+
         return url
     }
     

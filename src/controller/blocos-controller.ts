@@ -28,10 +28,11 @@ class BlocosController {
 
     async post(req: Request, res: Response) {
         const { title, description, city, uf } = BlocosBodySchema.parse(req.body)
-        const { mimetype } =  BlocosFileSchema.parse(req.file)
+        const { mimetype: type } =  BlocosFileSchema.parse(req.file)
 
         const awsS3 = new AwsS3()
         const imageName = this.generateImageName()
+        const url = await awsS3.getImagesInAws(imageName)
       
         const buffer = await sharp(req.file?.buffer).resize({
             height: 180,
@@ -48,7 +49,8 @@ class BlocosController {
                 uf,
                 FotosBloco: {
                     create: {
-                        image: imageName
+                        image: imageName,
+                        url
                     }
                 }
             },
@@ -62,31 +64,27 @@ class BlocosController {
             }
         })
 
-        await awsS3.insertImagesInAws(imageName, buffer, mimetype)
+        await awsS3.insertImagesInAws(imageName, buffer, type)
 
         return res.status(201).json(blocos)
     }
 
     async get(req: Request, res: Response) {
         const { page } = BlocosQuerySchema.parse(req.query)
-        const awsS3 = new AwsS3()
     
         const blocos = await prisma.blocos.findMany({
-            take: page + 9
-        })
-
-        const fotos = await prisma.fotosBloco.findMany({
-            orderBy: {
-                createdAt: 'desc'
+            take: page + 9,
+            include: {
+                FotosBloco: {
+                    select: {
+                        image: true,
+                        url: true
+                    }
+                }
             }
         })
 
-       const url = await awsS3.getImagesInAws(fotos)
-        
-        return res.status(200).json({
-            blocos,
-            fotos: url
-        })
+        return res.status(200).json(blocos)
     }
 
     async remove(req: Request, res: Response) {

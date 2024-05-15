@@ -29,6 +29,7 @@ model Blocos {
 model FotosBloco {
   id        String    @id @default(uuid())
   image     String
+  url       String?
   bloco     Blocos    @relation(fields: [blocosId], references: [id], onDelete: Cascade)
   blocosId  String    @map("blocos_id")
   createdAt DateTime  @default(now()) @map("created_at")

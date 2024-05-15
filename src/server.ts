@@ -1,14 +1,15 @@
+import { env } from './env.js'
 import express from 'express'
 import { blocosController } from './controller/blocos-controller.js'
 import { upload } from './multer/upload.js'
-
-import { env } from './env.js'
+import cors from 'cors'
 
 const app = express()
+
+app.use(cors())
 app.use(express.json())
 
 const port = env.PORT || 8080
-
 
 app.post('/api/blocos', upload.single('image'), async (req, res) => {
 

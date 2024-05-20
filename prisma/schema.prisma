@@ -13,6 +13,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Users {
+  id         String    @id @default(uuid())
+  googleId   String
+  googleName String
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime? @map("updated_at")
+
+  blocos   Blocos? @relation(fields: [blocosId], references: [id])
+  blocosId String? @map("blocos_id")
+
+  @@map("users")
+}
+
 model Blocos {
   id          String       @id @default(uuid())
   title       String
@@ -22,6 +35,7 @@ model Blocos {
   createdAt   DateTime     @default(now()) @map("created_at")
   updatedAt   DateTime?    @map("updated_at")
   FotosBloco  FotosBloco[]
+  Users       Users[]
 
   @@map("blocos")
 }

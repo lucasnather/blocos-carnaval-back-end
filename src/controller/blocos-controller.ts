@@ -1,30 +1,11 @@
 import { Request, Response } from "express";
-import { z } from "zod";
 import { prisma } from "../database/prisma.js";
 import { AwsS3 } from "../s3/aws-s3.js";
 import { randomUUID } from "node:crypto";
 import sharp from "sharp";
+import { BlocoParamSchema, BlocosBodySchema, BlocosFileSchema, BlocosQuerySchema } from "../types/blocos-schemas.js";
 
-const BlocosBodySchema = z.object({
-    title: z.string(),
-    description: z.string(),
-    city: z.string(),
-    uf: z.string(),
-})
-
-const BlocosFileSchema = z.object({
-    mimetype: z.string()
-})
-
-const BlocosQuerySchema = z.object({
-    page: z.coerce.number().optional().default(0)
-})
-
-const BlocoParamSchema = z.object({
-    id: z.string().uuid()
-})
-
-class BlocosController {
+export class BlocosController {
 
     async post(req: Request, res: Response) {
         const { title, description, city, uf } = BlocosBodySchema.parse(req.body)
@@ -121,5 +102,3 @@ class BlocosController {
         return imageName
     }
 }
-
-export const blocosController = new BlocosController()

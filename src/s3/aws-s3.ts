@@ -8,8 +8,8 @@ export class AwsS3 {
         const s3CLient = new S3Client({
             region: env.REGION_BUCKET,
             credentials: {
-                accessKeyId: env.ACCESS_KEY_ID,
-                secretAccessKey: env.SECRET_KEY_ID
+                accessKeyId: env.AWS_ACCESS_KEY_ID,
+                secretAccessKey: env.AWS_SECRET_KEY_ID
             }
         });
 

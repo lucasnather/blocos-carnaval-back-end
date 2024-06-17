@@ -75,8 +75,9 @@ $ npm run dev:watch
     }
 
 ```
-
-    <li>Response Payload: </li>
+<ul>
+    <li>Response Payload<li>
+</ul>
 
 ```bash
     {
@@ -130,7 +131,7 @@ $ npm run dev:watch
     ]
 
 ```
-3. Deletar Bloco lar por Id
+3. Deletar Bloco por Id
 <ul>
     <li>Metódo: DELETE</li>
     <li>URL: http://localhost:8080/api/blocos/{uuid}</li>

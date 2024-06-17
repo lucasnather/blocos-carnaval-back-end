@@ -75,9 +75,9 @@ $ npm run dev:watch
     }
 
 ```
-<ul>
-    <li>Response Payload<li>
-</ul>
+
+<li>Response Payload<li>
+
 
 ```bash
     {

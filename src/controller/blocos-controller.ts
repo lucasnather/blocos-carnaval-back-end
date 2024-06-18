@@ -1,28 +1,10 @@
 import { Request, Response } from "express";
 import { prisma } from "../database/prisma.js";
 import { AwsS3 } from "../s3/aws-s3.js";
-import { BlocoParamSchema, BlocosBodySchema, BlocosFileSchema, BlocosQuerySchema } from "../types/blocos-schemas.js";
+import { BlocoParamSchema, } from "../types/blocos-schemas.js";
 
 export class BlocosController {
 
-
-    async get(req: Request, res: Response) {
-        const { page } = BlocosQuerySchema.parse(req.query)
-    
-        const blocos = await prisma.blocos.findMany({
-            take: page + 9,
-            include: {
-                FotosBloco: {
-                    select: {
-                        image: true,
-                        url: true
-                    }
-                }
-            }
-        })
-
-        return res.status(200).json(blocos)
-    }
 
     async remove(req: Request, res: Response) {
         const { id } = BlocoParamSchema.parse(req.params)

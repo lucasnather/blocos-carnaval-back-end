@@ -18,16 +18,15 @@ export class AwsS3 {
 
     async insertImagesInAws(imageName: string, buffer: Buffer, mimetype: string) {
         const client = this.createBucket()
+
+        const command =  new PutObjectCommand({
+            Bucket: env.BUCKET_NAME,
+            Key: imageName,
+            Body: buffer,
+            ContentType: mimetype
+          })
         
-        const createImage = await client.send(
-            new PutObjectCommand({
-              Bucket: env.BUCKET_NAME,
-              Key: imageName,
-              Body: buffer,
-              ContentType: mimetype
-                
-            })
-        );
+        const createImage = await client.send(command);
 
         return createImage
        
@@ -35,13 +34,12 @@ export class AwsS3 {
 
    async getImagesInAws(imageName: string) {
         const client = this.createBucket()
-        
-        const getObjectParams = {
+
+        const command = new GetObjectCommand({
             Bucket: env.BUCKET_NAME,
             Key: imageName
-        }
+        })
 
-        const command = new GetObjectCommand(getObjectParams)
         const url = await getSignedUrl(client, command, { expiresIn: 3600})
 
         return url
@@ -49,12 +47,12 @@ export class AwsS3 {
     
     async deleteImagesInAws(imageName: string) {
         const client = this.createBucket()
+
+        const command = new DeleteObjectCommand({
+            Bucket: env.BUCKET_NAME,
+            Key: imageName
+        })
         
-        await client.send(
-            new DeleteObjectCommand({
-                Bucket: env.BUCKET_NAME,
-                Key: imageName
-            })
-        );
+        await client.send(command);
    }
 }

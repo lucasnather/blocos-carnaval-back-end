@@ -28,5 +28,3 @@ export async function findGoogleUser(profile: ProfileTypeId) {
 
     return findUser
 }
-
-//return done(null, {name: profile.displayName, id: profile.id})

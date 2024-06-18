@@ -2,12 +2,13 @@ import express from 'express'
 import passport from 'passport'
 import session from 'express-session'
 import cors from 'cors'
-import { Strategy } from 'passport-google-oauth20'
 import { env } from './env.js'
 import { blocosRoutes } from './routes/blocos-routes.js'
-import { createGoogleUser, findGoogleUser } from './utils/create-google-user.js'
+import { passportStrategy } from './utils/passport-strategy.js'
 
 const app = express()
+
+const port = env.PORT || 8080
 
 const sessionOptions = {
     secret: env.SECRET_PASSWORD_SESSION,
@@ -24,21 +25,7 @@ app.use(express.json())
 app.use(session(sessionOptions))
 app.use(passport.session());
 
-passport.use(new Strategy({
-    clientID: env.GOOGLE_CLIENT_ID,
-    clientSecret: env.GOOGLE_CLIENT_SECRET_ID,
-    callbackURL: env.GOOGLE_CALLBACK_URL,
-},
-    async function (accessToken, refreshToken, profile, done) {
-        const findUser = await findGoogleUser(profile)
-
-        if(findUser)  return done(null, {name: profile.displayName, id: profile.id})
-
-        await createGoogleUser(profile)
-
-        return done(null, {name: profile.displayName, id: profile.id})
-    }
-))
+passport.use(passportStrategy)
 
 passport.serializeUser((user, done) => {
     done(null, user);
@@ -50,8 +37,6 @@ passport.deserializeUser(({id, displayname }, done) => {
         displayname
     });
 })
-
-const port = env.PORT || 8080
 
 app.use('/api/blocos', blocosRoutes)
 

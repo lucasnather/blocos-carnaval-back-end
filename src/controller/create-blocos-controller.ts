@@ -18,7 +18,6 @@ const BlocosFileSchema = z.object({
 
 export class CreateBlocosController {
 
-
     async post(req: Request, res: Response) {
         const { title, description, city, uf } = BlocosBodySchema.parse(req.body)
         const { mimetype: type } =  BlocosFileSchema.parse(req.file)

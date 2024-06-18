@@ -4,18 +4,6 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 export class AwsS3 {
 
-    createBucket() {
-        const s3CLient = new S3Client({
-            region: env.REGION_BUCKET,
-            credentials: {
-                accessKeyId: env.AWS_ACCESS_KEY_ID,
-                secretAccessKey: env.AWS_SECRET_KEY_ID
-            }
-        });
-
-        return s3CLient
-    }
-
     async insertImagesInAws(imageName: string, buffer: Buffer, mimetype: string) {
         const client = this.createBucket()
 
@@ -55,4 +43,17 @@ export class AwsS3 {
         
         await client.send(command);
    }
+
+   private createBucket() {
+        const s3CLient = new S3Client({
+            region: env.REGION_BUCKET,
+            credentials: {
+                accessKeyId: env.AWS_ACCESS_KEY_ID,
+                secretAccessKey: env.AWS_SECRET_KEY_ID
+            }
+        });
+
+        return s3CLient
+    }
+
 }

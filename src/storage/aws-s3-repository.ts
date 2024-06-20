@@ -1,10 +1,11 @@
 import { DeleteObjectCommand, GetObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { env } from "../env.js";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { UploadProps, UploaderInterface } from "../interface/uploader-interface.js";
 
-export class AwsS3 {
+export class AwsS3Repository implements UploaderInterface { 
 
-    async insertImagesInAws(imageName: string, buffer: Buffer, mimetype: string) {
+    async uploadImage({imageName, buffer, mimetype}: UploadProps) {
         const client = this.createBucket()
 
         const command =  new PutObjectCommand({
@@ -20,7 +21,7 @@ export class AwsS3 {
        
     }
 
-   async getImagesInAws(imageName: string) {
+   async findImages(imageName: string) {
         const client = this.createBucket()
 
         const command = new GetObjectCommand({
@@ -33,7 +34,7 @@ export class AwsS3 {
         return url
     }
     
-    async deleteImagesInAws(imageName: string) {
+    async deleteImages(imageName: string) {
         const client = this.createBucket()
 
         const command = new DeleteObjectCommand({
@@ -41,10 +42,11 @@ export class AwsS3 {
             Key: imageName
         })
         
-        await client.send(command);
+       return await client.send(command);
    }
 
-   private createBucket() {
+    createBucket() {
+
         const s3CLient = new S3Client({
             region: env.REGION_BUCKET,
             credentials: {

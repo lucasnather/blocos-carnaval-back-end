@@ -1,6 +1,6 @@
-import { z } from "zod"
-import { prisma } from "../database/prisma.js"
 import type { Request, Response } from 'express'
+import { makeFindManyBloco } from "../factory/make-find-many-blocos.js"
+import { z } from "zod"
 
 const BlocosQuerySchema = z.object({
     page: z.coerce.number().optional().default(0)
@@ -11,16 +11,10 @@ export class FindManyBlocosController {
     async get(req: Request, res: Response) {
         const { page } = BlocosQuerySchema.parse(req.query)
     
-        const blocos = await prisma.blocos.findMany({
-            take: page + 9,
-            include: {
-                FotosBloco: {
-                    select: {
-                        image: true,
-                        url: true
-                    }
-                }
-            }
+        const findManyBlocosService = makeFindManyBloco()
+
+        const blocos = await findManyBlocosService.handle({
+            page
         })
 
         return res.status(200).json(blocos)

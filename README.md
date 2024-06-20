@@ -177,8 +177,20 @@ $ npm run dev:watch
 
 # Meus Objetivos com esta aplicação
 
-<p>Desejo com esta aplicação melhorar meus conhecimentos com NodeJS + Express + Typescript</p>
+<p>Desejo com esta aplicação aprimorar meus conhecimentos com NodeJS + Express + Typescript</p>
 
-<p>Conhercer novas formas de persistir dados, neste caso estou aprendendo e lendo as documentações para aprender uma boa maneira de usar a Amazon S3</p>
+<p>Conhecer novas formas de persistir dados, neste caso estou aprendendo e lendo as documentações para aprender uma boa maneira de usar a Amazon S3</p>
 
-<p>Testar e implementar novas estratégias de autenticação com o gogole, para facilitar o login de usuários na aplicação</p>
+<p>Testar e implementar novas estratégias de autenticação com o google, para facilitar o login de usuários na aplicação</p>
+
+# O que eu Aprendi / Reforcei conhecimento
+
+<p>Reforcei o conhecimento em tentar separar ao máximo as camadas, tentanto aplicar o DDD para quando for revisar o projeto não me perder (de novo kk)</p> 
+
+<p>Persistir os dados na Cloudflare e AWS, criei uma interface Uploader para fazer o contrato de quais métodos seriam utilizados para a persistências de dados, assim eu não precisava olhar diretamente para minha lógica no repositório e sim fazer a inversão de dependência para melhor abstração e desacoplamento das camadas. </p>
+
+# Fluxo da app
+
+<p>Como eu desenvolvi a aplicação passo a passo (Pastas)</p>
+
+<p>Interface -> Repository / Storage -> Service -> Controller -> Routes -> server.ts </p>

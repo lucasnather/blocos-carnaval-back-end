@@ -1,5 +1,6 @@
 import { UploaderInterface } from "../interface/uploader-interface.js";
 import {  BlocosInterface, CreateAndDeleteBlocosResponse } from "../interface/blocos-interface.js";
+import { ResourceNotFoundError } from "../error/resource-not-found.js";
 
 interface DeleteBlocosRequest {
     id: string
@@ -18,6 +19,9 @@ export class DeleteBlocosService {
     ) {}
 
     async handle({ id }: DeleteBlocosRequest): Promise<DeleteBlocosResponse> {
+        const findBlocos = await this.blocosInterface.findById(id)
+
+        if(!findBlocos) throw new ResourceNotFoundError()
 
         const blocos = await this.blocosInterface.remove(id)
 

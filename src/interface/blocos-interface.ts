@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { Blocos, Prisma } from "@prisma/client";
 
 export interface CreateAndDeleteBlocosResponse {
     id: string;
@@ -34,4 +34,5 @@ export interface BlocosInterface {
     create(bloco: Prisma.BlocosUncheckedCreateInput, foto: FotoType): Promise<CreateAndDeleteBlocosResponse>
     remove(blocoId: string): Promise<CreateAndDeleteBlocosResponse>
     findMany(page: number): Promise<FindBlocosResponse[]>
+    findById(id: string): Promise<Blocos | null>
 }

@@ -3,7 +3,7 @@ import { BlocosInterface, FotoType } from "../interface/blocos-interface.js";
 import { prisma } from "../database/prisma.js";
 
 export class BlocosRepository implements BlocosInterface {
-
+    
     async create(bloco: Prisma.BlocosUncheckedCreateInput, foto: FotoType) {
         const { title, city, description, uf } = bloco
         const { image, url } = foto
@@ -72,6 +72,18 @@ export class BlocosRepository implements BlocosInterface {
 
         return blocos
 
+    }
+
+    async findById(id: string) {
+        const blocos = await prisma.blocos.findUnique({
+            where: {
+                id
+            }
+        })
+
+        if(!blocos) return null
+
+        return blocos
     }
 
 }

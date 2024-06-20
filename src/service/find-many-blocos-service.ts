@@ -1,4 +1,3 @@
-import { UploaderInterface } from "../interface/uploader-interface.js";
 import {  BlocosInterface, FindBlocosResponse } from "../interface/blocos-interface.js";
 
 interface FindManyBlocosRequest {
@@ -8,7 +7,6 @@ interface FindManyBlocosRequest {
 interface FindManyBlocosResponse {
     blocos: FindBlocosResponse[]
 }
-
 
 export class FindManyBlocosService {
 

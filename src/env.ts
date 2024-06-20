@@ -11,6 +11,10 @@ const EnvSchema = z.object({
     GOOGLE_CALLBACK_URL: z.string().url(),
     SECRET_PASSWORD_SESSION: z.string(),
     REGION_BUCKET: z.string(),
+    CLOUDFLARE_BUCKET_NAME: z.string(),
+    CLOUDFLARE_ACCOUNT_ID: z.string(),
+    CLOUDFLARE_ACCESS_KEY: z.string(),
+    CLOUDFLARE_SECRET_KEY: z.string(),
 })
 
 const _env = EnvSchema.safeParse(process.env)
